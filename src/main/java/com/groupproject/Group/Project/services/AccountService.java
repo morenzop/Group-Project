@@ -10,10 +10,10 @@ import java.util.Optional;
 
 @Service
 public class AccountService {
+
     @Autowired
     private AccountsRepository accountsRepository;
-    @Autowired
-    private AccountService accountService;
+
     public Optional<Account> findById(long id){
         return accountsRepository.findById(id);
     }
@@ -36,8 +36,8 @@ public class AccountService {
         Account accountToUpdate = accountsRepository.getOne(id);
         if (account.getType() != null) accountToUpdate.setType(account.getType());
         if (account.getNickname() != null) accountToUpdate.setNickname(account.getNickname());
-        if (account.getBalance() != null) accountToUpdate.setBalance(account.getBalance());
-        if (account.getRewards() != null) accountToUpdate.setRewards(account.getRewards());
+        if (account.getBalance() != 0) accountToUpdate.setBalance(account.getBalance());
+        if (account.getRewards() != 0) accountToUpdate.setRewards(account.getRewards());
         accountsRepository.save(accountToUpdate);
     }
 }
