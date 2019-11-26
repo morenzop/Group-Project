@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public class Response {
         private int code;
@@ -33,5 +34,4 @@ import java.util.List;
         public void setMessage(String message) {
             this.message = message;
         }
-
-}
+    }
