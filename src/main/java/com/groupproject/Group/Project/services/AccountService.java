@@ -4,7 +4,6 @@ import com.groupproject.Group.Project.models.Account;
 import com.groupproject.Group.Project.repositories.AccountsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 

@@ -1,5 +1,6 @@
 package com.groupproject.Group.Project.controllers;
 
+import com.groupproject.Group.Project.models.Account;
 import com.groupproject.Group.Project.models.Customer;
 import com.groupproject.Group.Project.models.Response;
 import com.groupproject.Group.Project.services.CustomerService;
@@ -54,5 +55,39 @@ public class CustomerController {
         response.setData(new ArrayList<>(Collections.singleton(customer)));
         customerService.save(customer);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+    @PutMapping("/customers/{id}")
+    public ResponseEntity<?> updateCustomer(@RequestBody Customer customer, @PathVariable("id") long id){
+        Response response = new Response();
+        HttpStatus statusCode;
+        Optional<Customer> g = customerService.findById(id);
+        if(!customerService.existsById(id)){
+            response.setCode(404);
+            response.setMessage("Error");
+            statusCode = HttpStatus.NOT_FOUND;
+        } else {
+            customerService.updateCustomer(customer, id);
+            response.setCode(200);
+            response.setMessage("Customer account updated");
+            response.setData(Collections.singletonList(g));
+            statusCode = HttpStatus.OK;
+        }
+        return new ResponseEntity<>(response, statusCode);
+    }
+    @DeleteMapping("/customers/{id}")
+    public ResponseEntity<?> deleteCustomer(@RequestBody Customer customer, @PathVariable("id") long id){
+        Response response = new Response();
+        HttpStatus statusCode;
+        if(!customerService.existsById(id)) {
+            response.setCode(404);
+            response.setMessage("Account does not exists");
+            statusCode = HttpStatus.NOT_FOUND;
+        }else{
+            customerService.deleteById(id);
+            response.setCode(202);
+            response.setMessage("Customer successfully deleted");
+            statusCode = HttpStatus.ACCEPTED;
+        }
+        return new ResponseEntity<>(response, statusCode);
     }
 }
