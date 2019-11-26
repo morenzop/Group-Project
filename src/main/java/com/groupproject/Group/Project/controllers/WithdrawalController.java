@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+@RestController
 public class WithdrawalController {
     @Autowired
     private WithdrawalService withdrawalService;
