@@ -10,8 +10,10 @@ import java.util.Optional;
 
 @Service
 public class CustomerService {
+
     @Autowired
     private CustomerRepository customerRepository;
+
     public Optional<Customer> findById(long id) {
         return customerRepository.findById(id);
     }
