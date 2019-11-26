@@ -4,7 +4,6 @@ import com.groupproject.Group.Project.models.Account;
 import com.groupproject.Group.Project.repositories.AccountsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -36,8 +35,8 @@ public class AccountService {
         Account accountToUpdate = accountsRepository.getOne(id);
         if (account.getType() != null) accountToUpdate.setType(account.getType());
         if (account.getNickname() != null) accountToUpdate.setNickname(account.getNickname());
-        if (account.getBalance() != null) accountToUpdate.setBalance(account.getBalance());
-        if (account.getRewards() != null) accountToUpdate.setRewards(account.getRewards());
+        if (account.getBalance() != 0) accountToUpdate.setBalance(account.getBalance());
+        if (account.getRewards() != 0) accountToUpdate.setRewards(account.getRewards());
         accountsRepository.save(accountToUpdate);
     }
 }
