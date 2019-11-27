@@ -3,7 +3,9 @@ package com.groupproject.Group.Project.controllers;
 import com.groupproject.Group.Project.models.Bill;
 import com.groupproject.Group.Project.models.Response;
 import com.groupproject.Group.Project.repositories.BillRepository;
+import com.groupproject.Group.Project.services.AccountService;
 import com.groupproject.Group.Project.services.BillService;
+import com.groupproject.Group.Project.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +22,18 @@ public class BillController {
     private BillService billService;
 
     @Autowired
-    private BillRepository billRepository;
+    private AccountService accountService;
+
+    @Autowired
+    private CustomerService customerService;
+
+
 
     @GetMapping("/accounts/{accountID}/bills")
     public ResponseEntity<?> getAllBillsForAcc(@PathVariable("accountID") Long id) {
         Response response = new Response();
         HttpStatus statusCode;
-        if (!billService.existsById(id)) {
+        if (!accountService.existsById(id)) {
             response.setCode(404);
             response.setMessage("error fetching bills");
             statusCode = HttpStatus.NOT_FOUND;
@@ -49,7 +56,7 @@ public class BillController {
             response.setMessage("error fetching bill with id: " + id);
             statusCode = HttpStatus.NOT_FOUND;
         } else {
-            Optional<Bill> bill = billRepository.findById(id);
+            Optional<Bill> bill = billService.getBillById(id);
             response.setCode(200);
             response.setData(new ArrayList<>(Collections.singleton(bill)));
             statusCode = HttpStatus.OK;
@@ -63,12 +70,12 @@ public class BillController {
     public ResponseEntity<?> getAllBillsForCus(@PathVariable("customerId") Long id) {
         Response response = new Response();
         HttpStatus statusCode;
-        if (!billService.existsById(id)) {
+        if (!customerService.existsById(id)) {
             response.setCode(404);
             response.setMessage("error fetching bills");
             statusCode = HttpStatus.NOT_FOUND;
         }else{
-            Optional<Bill> bill = billRepository.findById(id);
+            Optional<Bill> bill = billService.getBillById(id);
             response.setCode(200);
             response.setData(new ArrayList<>(Collections.singleton(bill)));
             statusCode = HttpStatus.OK;
@@ -81,7 +88,7 @@ public class BillController {
     public ResponseEntity<?> createBill(@RequestBody Bill bill, @PathVariable("accountId") Long id) {
         Response response = new Response();
         HttpStatus statusCode;
-        if (!billService.existsById(id)) {
+        if (!accountService.existsById(id)) {
             response.setCode(404);
             response.setMessage("Error creating bill: Account not found");
             statusCode = HttpStatus.NOT_FOUND;

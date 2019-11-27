@@ -9,10 +9,10 @@ import java.util.Optional;
 
 @Service
 public class AccountService {
+
     @Autowired
     private AccountsRepository accountsRepository;
-    @Autowired
-    private AccountService accountService;
+
     public Optional<Account> findById(long id){
         return accountsRepository.findById(id);
     }
